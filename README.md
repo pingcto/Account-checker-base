@@ -9,7 +9,7 @@ A account checker is a type of checker that checks accounts with the websites lo
 Use the account checkers with the help given below 
 
 ```python
-    pip3 install requests,colorama,os,time,easygui,datetime,ctypes,random
+    pip3 install requests colorama os time easygui datetime ctypes random
 ```
 
 
