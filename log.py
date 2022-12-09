@@ -5,29 +5,28 @@ import random
 from easygui import fileopenbox
 from datetime import datetime
 import ctypes
+import time
 
 bad = 0
 good = 0
 
-
-
-
 e = fileopenbox(default = '*.txt', title = "Select Combo File")
 r = open(e, "r", errors="ignore").read().split("\n")
 combolist = [x.strip() for x in r if x != '']
-
 e = fileopenbox(default = '*.txt', title = "Select Proxy File")
 r = open(e, "r", errors="ignore").read().split("\n")
 proxies = [x.strip() for x in r if x != '']
-
 pr = dict(zip("https://", proxies))
 
-os.system('cls')
-
+os.system('cls' if os.name == 'nt' else 'clear')
 api = 'http://testphp.vulnweb.com/userinfo.php'
 
-now = datetime.now()
-dt_string = now.strftime("%H:%M:%S")
+def tstamp():
+    timestamp = time.time()
+    date_time = datetime.fromtimestamp(timestamp)
+    ts = str(date_time.strftime("%H:%M:%S"))
+    return ts
+
 
 for combo in combolist:
     seq = combo.strip()
@@ -50,8 +49,8 @@ for combo in combolist:
     ctypes.windll.kernel32.SetConsoleTitleW(f"Test Checker Good:- {good} | Bad:- {bad}")
 
     if "On this page you can visualize" in req:
-        print(f"{Style.BRIGHT}{Fore.CYAN}{dt_string} - {Fore.GREEN}[Hit]{Fore.CYAN} - {Fore.GREEN}" + account)
+        print(f"{Style.BRIGHT}{Fore.CYAN}{tstamp()} - {Fore.GREEN}[Hit]{Fore.CYAN} - {Fore.GREEN}" + account)
         good += 1
     if "username" in req:
         bad += 1
-        print(f"{Style.BRIGHT}{Fore.CYAN}{dt_string} - {Fore.RED}[BAD]{Fore.CYAN} - {Fore.RED}" + account)
+        print(f"{Style.BRIGHT}{Fore.CYAN}{tstamp()} - {Fore.RED}[BAD]{Fore.CYAN} - {Fore.RED}" + account)
