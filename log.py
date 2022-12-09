@@ -1,11 +1,11 @@
-import requests
 from colorama import Fore,Style
-import os
-import random
 from easygui import fileopenbox
 from datetime import datetime
+import requests
+import random
 import ctypes
 import time
+import os
 
 bad = 0
 good = 0
@@ -13,11 +13,12 @@ good = 0
 e = fileopenbox(default = '*.txt', title = "Select Combo File")
 r = open(e, "r", errors="ignore").read().split("\n")
 combolist = [x.strip() for x in r if x != '']
+
 e = fileopenbox(default = '*.txt', title = "Select Proxy File")
 r = open(e, "r", errors="ignore").read().split("\n")
 proxies = [x.strip() for x in r if x != '']
-pr = dict(zip("https://", proxies))
 
+pr = dict(zip("https://", proxies))
 os.system('cls' if os.name == 'nt' else 'clear')
 api = 'http://testphp.vulnweb.com/userinfo.php'
 
@@ -31,12 +32,9 @@ def tstamp():
 for combo in combolist:
     seq = combo.strip()
     acc = seq.split(':')
-
     username = acc [0]
     password = acc [1]
     account = username + ':' + password
-    
-
 
     headers = {
         "Content-Type": "application/json",
